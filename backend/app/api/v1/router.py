@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 from app.api.v1.endpoints import auth, health, users
 from app.api.v1.garment import garment_router
-from app.api.v1 import reports
+from app.api.v1 import reports, wholesale
 
 api_router = APIRouter()
 
@@ -40,6 +40,12 @@ api_router.include_router(
     reports.router,
     prefix="/reports",
     tags=["Reports & Analytics"]
+)
+
+# Wholesale B2B Module
+api_router.include_router(
+    wholesale.router,
+    tags=["Wholesale B2B"]
 )
 
 # Future routers will be added here:

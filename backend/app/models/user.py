@@ -52,6 +52,18 @@ class User(BaseModel):
         lazy="selectin"
     )
     
+    orders = relationship(
+        "Order",
+        back_populates="customer",
+        foreign_keys="[Order.customer_id]"
+    )
+    
+    wholesale_customers = relationship(
+        "WholesaleCustomer",
+        back_populates="sales_rep",
+        foreign_keys="[WholesaleCustomer.sales_rep_id]"
+    )
+    
     def __repr__(self):
         return f"<User {self.email}>"
     

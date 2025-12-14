@@ -16,6 +16,40 @@ from app.models.inventory import (
     LowStockAlert,
     MovementType
 )
+from app.models.garment import (
+    SizeChart,
+    Color,
+    Fabric,
+    Style,
+    Collection,
+    MeasurementSpec,
+    GarmentImage,
+    ProductFabric,
+    SizeCategory,
+    Region,
+    Season
+)
+from app.models.order import (
+    Order,
+    OrderItem,
+    PricingTier,
+    PaymentTransaction,
+    ShippingDetails,
+    SalesChannel,
+    OrderStatus,
+    PaymentStatus,
+    PaymentMethod,
+    ShippingStatus,
+    PricingTierType
+)
+from app.models.wholesale import (
+    WholesaleCustomer,
+    ContractPricing,
+    CustomerType,
+    CustomerStatus,
+    PaymentTerms,
+    CreditStatus
+)
 
 __all__ = [
     "User",
@@ -32,4 +66,32 @@ __all__ = [
     "StockAdjustment",
     "LowStockAlert",
     "MovementType",
+    "SizeChart",
+    "Color",
+    "Fabric",
+    "Style",
+    "Collection",
+    "MeasurementSpec",
+    "GarmentImage",
+    "ProductFabric",
+    "SizeCategory",
+    "Region",
+    "Season",
+    "Order",
+    "OrderItem",
+    "PricingTier",
+    "PaymentTransaction",
+    "ShippingDetails",
+    "SalesChannel",
+    "OrderStatus",
+    "PaymentStatus",
+    "PaymentMethod",
+    "ShippingStatus",
+    "PricingTierType",
+    "WholesaleCustomer",
+    "ContractPricing",
+    "CustomerType",
+    "CustomerStatus",
+    "PaymentTerms",
+    "CreditStatus",
 ]
