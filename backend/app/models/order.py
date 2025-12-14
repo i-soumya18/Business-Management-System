@@ -18,6 +18,7 @@ from app.core.database import Base
 
 if TYPE_CHECKING:
     from app.models.product import ProductVariant
+    from app.models.order_management import OrderHistory, OrderNote, OrderFulfillment, InventoryReservation
     from app.models.user import User
     from app.models.wholesale import WholesaleCustomer
 
@@ -291,6 +292,33 @@ class Order(Base):
     sales_rep: Mapped[Optional["User"]] = relationship(
         "User",
         foreign_keys=[sales_rep_id]
+    )
+    
+    # Order Management Relationships
+    history: Mapped[List["OrderHistory"]] = relationship(
+        "OrderHistory",
+        back_populates="order",
+        cascade="all, delete-orphan",
+        order_by="OrderHistory.created_at.desc()"
+    )
+    
+    notes: Mapped[List["OrderNote"]] = relationship(
+        "OrderNote",
+        back_populates="order",
+        cascade="all, delete-orphan",
+        order_by="OrderNote.created_at.desc()"
+    )
+    
+    fulfillments: Mapped[List["OrderFulfillment"]] = relationship(
+        "OrderFulfillment",
+        back_populates="order",
+        cascade="all, delete-orphan"
+    )
+    
+    inventory_reservations: Mapped[List["InventoryReservation"]] = relationship(
+        "InventoryReservation",
+        back_populates="order",
+        cascade="all, delete-orphan"
     )
     
     # Indexes

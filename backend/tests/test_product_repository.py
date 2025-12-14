@@ -5,6 +5,7 @@ Tests for ProductRepository and ProductVariantRepository operations.
 """
 
 import pytest
+import pytest_asyncio
 from uuid import uuid4
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -27,10 +28,11 @@ class TestProductRepository:
         product_data = {
             "sku": "TEST-001",
             "name": "Test Product",
+            "slug": "test-product",
             "description": "A test product",
-            "unit_cost": 10.0,
-            "wholesale_price": 15.0,
-            "retail_price": 20.0,
+            "base_cost_price": 10.0,
+            "base_wholesale_price": 15.0,
+            "base_retail_price": 20.0,
             "is_active": True
         }
         
@@ -39,7 +41,7 @@ class TestProductRepository:
         assert product.id is not None
         assert product.sku == "TEST-001"
         assert product.name == "Test Product"
-        assert product.retail_price == 20.0
+        assert product.base_retail_price == 20.0
     
     async def test_get_by_id(self, db_session: AsyncSession):
         """Test getting a product by ID"""
@@ -49,8 +51,9 @@ class TestProductRepository:
         product_data = {
             "sku": "TEST-002",
             "name": "Another Test Product",
-            "unit_cost": 5.0,
-            "retail_price": 10.0
+            "slug": "another-test-product",
+            "base_cost_price": 5.0,
+            "base_retail_price": 10.0
         }
         created_product = await repo.create(product_data)
         
@@ -68,7 +71,8 @@ class TestProductRepository:
         product_data = {
             "sku": "UNIQUE-SKU-001",
             "name": "SKU Test Product",
-            "retail_price": 25.0
+            "slug": "sku-test-product",
+            "base_retail_price": 25.0
         }
         await repo.create(product_data)
         
@@ -87,19 +91,20 @@ class TestProductRepository:
         product_data = {
             "sku": "UPDATE-001",
             "name": "Original Name",
-            "retail_price": 30.0
+            "slug": "original-name",
+            "base_retail_price": 30.0
         }
         product = await repo.create(product_data)
         
         # Update it
         updated_product = await repo.update(product.id, {
             "name": "Updated Name",
-            "retail_price": 35.0
+            "base_retail_price": 35.0
         })
         
         assert updated_product is not None
         assert updated_product.name == "Updated Name"
-        assert updated_product.retail_price == 35.0
+        assert updated_product.base_retail_price == 35.0
         assert updated_product.sku == "UPDATE-001"  # SKU unchanged
     
     async def test_delete_product(self, db_session: AsyncSession):
@@ -110,7 +115,8 @@ class TestProductRepository:
         product_data = {
             "sku": "DELETE-001",
             "name": "To Be Deleted",
-            "retail_price": 10.0
+            "slug": "to-be-deleted",
+            "base_retail_price": 10.0
         }
         product = await repo.create(product_data)
         
@@ -132,7 +138,8 @@ class TestProductRepository:
             await repo.create({
                 "sku": f"SEARCH-{i:03d}",
                 "name": f"Search Product {i}",
-                "retail_price": 10.0 * (i + 1)
+                "slug": f"search-product-{i}",
+                "base_retail_price": 10.0 * (i + 1)
             })
         
         # Search by name
@@ -232,7 +239,7 @@ class TestProductVariantRepository:
 # Fixtures
 # ============================================================================
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def sample_product(db_session: AsyncSession) -> Product:
     """Create a sample product for testing"""
     repo = ProductRepository(db_session)
@@ -240,10 +247,11 @@ async def sample_product(db_session: AsyncSession) -> Product:
     product_data = {
         "sku": "SAMPLE-PROD-001",
         "name": "Sample Product",
+        "slug": "sample-product",
         "description": "A sample product for testing",
-        "unit_cost": 10.0,
-        "wholesale_price": 15.0,
-        "retail_price": 20.0,
+        "base_cost_price": 10.0,
+        "base_wholesale_price": 15.0,
+        "base_retail_price": 20.0,
         "is_active": True
     }
     

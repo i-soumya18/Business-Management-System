@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.inventory import (
     InventoryLevelResponse,
     InventoryLevelUpdate
@@ -19,7 +19,7 @@ from app.repositories.inventory import InventoryLevelRepository
 from app.api.dependencies import PaginationParams
 
 
-router = APIRouter(prefix="/api/v1/inventory/levels", tags=["Inventory Levels"])
+router = APIRouter(prefix="/levels", tags=["Inventory Levels"])
 
 
 @router.get("/", response_model=List[InventoryLevelResponse])

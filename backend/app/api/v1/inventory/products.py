@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.product import (
     ProductCreate,
     ProductUpdate,
@@ -22,7 +22,7 @@ from app.repositories.product import ProductRepository
 from app.api.dependencies import PaginationParams, SearchParams
 
 
-router = APIRouter(prefix="/api/v1/inventory/products", tags=["Products"])
+router = APIRouter(prefix="/products", tags=["Products"])
 
 
 @router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)

@@ -5,7 +5,7 @@ from fastapi import APIRouter
 
 from app.api.v1.endpoints import auth, health, users
 from app.api.v1.garment import garment_router
-from app.api.v1 import reports, wholesale
+from app.api.v1 import reports, wholesale, pos, ecommerce, orders, pricing, inventory
 
 api_router = APIRouter()
 
@@ -48,9 +48,34 @@ api_router.include_router(
     tags=["Wholesale B2B"]
 )
 
+# POS Retail Module
+api_router.include_router(
+    pos.router,
+    tags=["Point of Sale"]
+)
+
+# E-Commerce Module
+api_router.include_router(
+    ecommerce.router,
+    prefix="/ecommerce",
+    tags=["E-Commerce"]
+)
+
+# Order Management Module
+api_router.include_router(
+    orders.router,
+    tags=["Order Management"]
+)
+
+# Pricing Engine Module
+api_router.include_router(
+    pricing.router,
+    tags=["Pricing Engine"]
+)
+
 # Future routers will be added here:
 # api_router.include_router(roles.router, prefix="/roles", tags=["Roles & Permissions"])
-# api_router.include_router(inventory.router, prefix="/inventory", tags=["Inventory"])
+api_router.include_router(inventory.router, prefix="/inventory", tags=["Inventory"])
 # api_router.include_router(sales.router, prefix="/sales", tags=["Sales"])
 # api_router.include_router(orders.router, prefix="/orders", tags=["Orders"])
 # api_router.include_router(customers.router, prefix="/customers", tags=["CRM"])

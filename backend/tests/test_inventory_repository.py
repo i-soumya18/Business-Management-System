@@ -12,7 +12,7 @@ from uuid import uuid4
 
 from app.models.inventory import InventoryLevel, StockLocation
 from app.models.product import Product, ProductVariant
-from app.repositories.inventory_level import InventoryLevelRepository
+from app.repositories.inventory import InventoryLevelRepository
 from app.repositories.product import ProductRepository, ProductVariantRepository
 
 

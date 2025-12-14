@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.category import (
     CategoryCreate,
     CategoryUpdate,
@@ -23,7 +23,7 @@ from app.repositories.category_brand_supplier import CategoryRepository
 from app.api.dependencies import PaginationParams
 
 
-router = APIRouter(prefix="/api/v1/inventory/categories", tags=["Categories"])
+router = APIRouter(prefix="/categories", tags=["Categories"])
 
 
 @router.post("/", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)

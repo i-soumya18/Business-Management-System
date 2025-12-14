@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.product import (
     ProductVariantCreate,
     ProductVariantUpdate,
@@ -21,7 +21,7 @@ from app.repositories.product import ProductVariantRepository, ProductRepository
 from app.api.dependencies import SearchParams
 
 
-router = APIRouter(prefix="/api/v1/inventory/variants", tags=["Product Variants"])
+router = APIRouter(prefix="/variants", tags=["Product Variants"])
 
 
 @router.post("/", response_model=ProductVariantResponse, status_code=status.HTTP_201_CREATED)

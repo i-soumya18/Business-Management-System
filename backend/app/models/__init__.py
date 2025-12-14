@@ -42,6 +42,14 @@ from app.models.order import (
     ShippingStatus,
     PricingTierType
 )
+from app.models.order_management import (
+    OrderHistory,
+    OrderNote,
+    OrderFulfillment,
+    InventoryReservation,
+    OrderHistoryAction,
+    FulfillmentStatus
+)
 from app.models.wholesale import (
     WholesaleCustomer,
     ContractPricing,
@@ -49,6 +57,47 @@ from app.models.wholesale import (
     CustomerStatus,
     PaymentTerms,
     CreditStatus
+)
+from app.models.pos import (
+    CashierShift,
+    CashDrawer,
+    POSTransaction,
+    ReturnExchange,
+    ShiftStatus,
+    CashDrawerStatus,
+    POSTransactionType,
+    ReturnReason
+)
+from app.models.ecommerce import (
+    ShoppingCart,
+    CartItem,
+    Wishlist,
+    WishlistItem,
+    ProductReview,
+    PromoCode,
+    PromoCodeUsage,
+    CartStatus,
+    PromoCodeType,
+    PromoCodeStatus,
+    ReviewStatus
+)
+from app.models.pricing import (
+    PricingRule,
+    PricingRuleProduct,
+    PricingRuleCategory,
+    PricingRuleCustomer,
+    ChannelPrice,
+    VolumeDiscount,
+    Promotion,
+    PromotionUsage,
+    PriceHistory,
+    CompetitorPrice,
+    CustomerPricingTier,
+    PricingRuleType,
+    DiscountType,
+    PricingRuleStatus,
+    CustomerTier,
+    PriceChangeReason
 )
 
 __all__ = [
@@ -88,10 +137,52 @@ __all__ = [
     "PaymentMethod",
     "ShippingStatus",
     "PricingTierType",
+    "OrderHistory",
+    "OrderNote",
+    "OrderFulfillment",
+    "InventoryReservation",
+    "OrderHistoryAction",
+    "FulfillmentStatus",
     "WholesaleCustomer",
     "ContractPricing",
     "CustomerType",
     "CustomerStatus",
     "PaymentTerms",
     "CreditStatus",
+    "CashierShift",
+    "CashDrawer",
+    "POSTransaction",
+    "ReturnExchange",
+    "ShiftStatus",
+    "CashDrawerStatus",
+    "POSTransactionType",
+    "ReturnReason",
+    "ShoppingCart",
+    "CartItem",
+    "Wishlist",
+    "WishlistItem",
+    "ProductReview",
+    "PromoCode",
+    "PromoCodeUsage",
+    "CartStatus",
+    "PromoCodeType",
+    "PromoCodeStatus",
+    "ReviewStatus",
+    # Pricing Engine
+    "PricingRule",
+    "PricingRuleProduct",
+    "PricingRuleCategory",
+    "PricingRuleCustomer",
+    "ChannelPrice",
+    "VolumeDiscount",
+    "Promotion",
+    "PromotionUsage",
+    "PriceHistory",
+    "CompetitorPrice",
+    "CustomerPricingTier",
+    "PricingRuleType",
+    "DiscountType",
+    "PricingRuleStatus",
+    "CustomerTier",
+    "PriceChangeReason",
 ]

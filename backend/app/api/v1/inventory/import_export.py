@@ -12,13 +12,13 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 import io
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.services.csv_service import CSVImportExportService
 from app.services.file_upload import FileUploadService
 from app.repositories.product import ProductRepository, ProductVariantRepository
 
 
-router = APIRouter(prefix="/api/v1/inventory/import-export", tags=["Import/Export"])
+router = APIRouter(prefix="/import-export", tags=["Import/Export"])
 csv_service = CSVImportExportService()
 file_service = FileUploadService()
 

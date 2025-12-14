@@ -18,15 +18,17 @@ pytestmark = pytest.mark.asyncio
 class TestProductEndpoints:
     """Tests for Product API endpoints"""
     
+    @pytest.mark.asyncio
     async def test_create_product(self, client: AsyncClient):
         """Test creating a product via API"""
         product_data = {
             "sku": f"TEST-{uuid4().hex[:8].upper()}",
             "name": "Test Product",
+            "slug": f"test-product-{uuid4().hex[:8]}",
             "description": "A test product",
-            "unit_cost": 10.0,
-            "wholesale_price": 15.0,
-            "retail_price": 20.0,
+            "base_cost_price": 10.0,
+            "base_wholesale_price": 15.0,
+            "base_retail_price": 20.0,
             "is_active": True
         }
         
@@ -36,7 +38,7 @@ class TestProductEndpoints:
         data = response.json()
         assert data["sku"] == product_data["sku"]
         assert data["name"] == product_data["name"]
-        assert data["retail_price"] == product_data["retail_price"]
+        assert data["base_retail_price"] == product_data["base_retail_price"]
     
     async def test_create_product_duplicate_sku(self, client: AsyncClient):
         """Test creating a product with duplicate SKU fails"""
@@ -44,7 +46,8 @@ class TestProductEndpoints:
         product_data = {
             "sku": sku,
             "name": "Product 1",
-            "retail_price": 20.0
+            "slug": f"product-1-{uuid4().hex[:8]}",
+            "base_retail_price": 20.0
         }
         
         # Create first product
@@ -354,11 +357,7 @@ class TestProductVariantEndpoints:
 # Fixtures
 # ============================================================================
 
-@pytest.fixture
-async def client() -> AsyncClient:
-    """Create an async test client"""
-    async with AsyncClient(app=app, base_url="http://test") as ac:
-        yield ac
+
 
 
 @pytest.fixture
@@ -367,8 +366,9 @@ async def sample_product_id(client: AsyncClient) -> str:
     response = await client.post("/api/v1/inventory/products/", json={
         "sku": f"SAMPLE-{uuid4().hex[:8].upper()}",
         "name": "Sample Product for Variants",
+        "slug": f"sample-product-{uuid4().hex[:8]}",
         "description": "A sample product",
-        "retail_price": 20.0,
+        "base_retail_price": 20.0,
         "is_active": True
     })
     return response.json()["id"]

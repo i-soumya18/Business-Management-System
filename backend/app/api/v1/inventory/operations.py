@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.inventory import (
     InventoryMovementCreate,
     InventoryMovementResponse,
@@ -25,7 +25,7 @@ from app.services.inventory import InventoryService
 from app.api.dependencies import PaginationParams
 
 
-router = APIRouter(prefix="/api/v1/inventory/operations", tags=["Inventory Operations"])
+router = APIRouter(prefix="/operations", tags=["Inventory Operations"])
 
 
 @router.post("/receive", status_code=status.HTTP_201_CREATED)

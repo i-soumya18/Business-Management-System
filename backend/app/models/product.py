@@ -19,6 +19,7 @@ if TYPE_CHECKING:
     from app.models.brand import Brand
     from app.models.supplier import Supplier
     from app.models.inventory import InventoryLevel, InventoryMovement
+    from app.models.garment import SizeChart, Style, Collection, Color, MeasurementSpec, GarmentImage, ProductFabric
 
 
 class Product(Base):
@@ -62,6 +63,24 @@ class Product(Base):
     supplier_id: Mapped[Optional[UUID]] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("suppliers.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True
+    )
+    size_chart_id: Mapped[Optional[UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("size_charts.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True
+    )
+    style_id: Mapped[Optional[UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("styles.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True
+    )
+    collection_id: Mapped[Optional[UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("collections.id", ondelete="SET NULL"),
         nullable=True,
         index=True
     )
@@ -110,6 +129,9 @@ class Product(Base):
     # Status
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     is_featured: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    size_chart: Mapped[Optional["SizeChart"]] = relationship("SizeChart", back_populates="products")
+    style: Mapped[Optional["Style"]] = relationship("Style", back_populates="products")
+    collection: Mapped[Optional["Collection"]] = relationship("Collection", back_populates="products")
     is_new_arrival: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
     is_on_sale: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
     
@@ -134,6 +156,21 @@ class Product(Base):
         back_populates="product",
         cascade="all, delete-orphan",
         lazy="dynamic"
+    )
+    measurement_specs: Mapped[List["MeasurementSpec"]] = relationship(
+        "MeasurementSpec",
+        back_populates="product",
+        cascade="all, delete-orphan"
+    )
+    images: Mapped[List["GarmentImage"]] = relationship(
+        "GarmentImage",
+        back_populates="product",
+        cascade="all, delete-orphan"
+    )
+    product_fabrics: Mapped[List["ProductFabric"]] = relationship(
+        "ProductFabric",
+        back_populates="product",
+        cascade="all, delete-orphan"
     )
     
     # Indexes
@@ -170,6 +207,14 @@ class ProductVariant(Base):
         UUID(as_uuid=True),
         ForeignKey("products.id", ondelete="CASCADE"),
         nullable=False,
+        index=True
+    )
+    
+    # Foreign Key to Color table (optional - for linking to garment colors)
+    color_id: Mapped[Optional[UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("colors.id", ondelete="SET NULL"),
+        nullable=True,
         index=True
     )
     
@@ -218,6 +263,7 @@ class ProductVariant(Base):
     
     # Relationships
     product: Mapped["Product"] = relationship("Product", back_populates="variants")
+    color_obj: Mapped[Optional["Color"]] = relationship("Color", back_populates="variants")
     inventory_levels: Mapped[List["InventoryLevel"]] = relationship(
         "InventoryLevel",
         back_populates="product_variant",

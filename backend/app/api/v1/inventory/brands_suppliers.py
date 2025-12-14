@@ -10,7 +10,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.session import get_db
+from app.core.database import get_db
 from app.schemas.brand_supplier import (
     BrandCreate,
     BrandUpdate,
@@ -27,7 +27,7 @@ from app.api.dependencies import PaginationParams, SearchParams
 # Brand Routes
 # ============================================================================
 
-brand_router = APIRouter(prefix="/api/v1/inventory/brands", tags=["Brands"])
+brand_router = APIRouter(prefix="/brands", tags=["Brands"])
 
 
 @brand_router.post("/", response_model=BrandResponse, status_code=status.HTTP_201_CREATED)
@@ -213,7 +213,7 @@ async def delete_brand(
 # Supplier Routes
 # ============================================================================
 
-supplier_router = APIRouter(prefix="/api/v1/inventory/suppliers", tags=["Suppliers"])
+supplier_router = APIRouter(prefix="/suppliers", tags=["Suppliers"])
 
 
 @supplier_router.post("/", response_model=SupplierResponse, status_code=status.HTTP_201_CREATED)

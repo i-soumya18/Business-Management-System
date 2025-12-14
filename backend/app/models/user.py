@@ -64,6 +64,22 @@ class User(BaseModel):
         foreign_keys="[WholesaleCustomer.sales_rep_id]"
     )
     
+    cashier_shifts = relationship(
+        "CashierShift",
+        back_populates="cashier",
+        foreign_keys="[CashierShift.cashier_id]"
+    )
+    
+    shopping_carts = relationship(
+        "ShoppingCart",
+        back_populates="user"
+    )
+    
+    wishlists = relationship(
+        "Wishlist",
+        back_populates="user"
+    )
+    
     def __repr__(self):
         return f"<User {self.email}>"
     
