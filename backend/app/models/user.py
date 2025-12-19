@@ -80,6 +80,25 @@ class User(BaseModel):
         back_populates="user"
     )
     
+    # CRM relationships
+    assigned_leads = relationship(
+        "Lead",
+        back_populates="assigned_to",
+        foreign_keys="[Lead.assigned_to_id]"
+    )
+    
+    owned_opportunities = relationship(
+        "SalesOpportunity",
+        back_populates="owner",
+        foreign_keys="[SalesOpportunity.owner_id]"
+    )
+    
+    retail_customer = relationship(
+        "RetailCustomer",
+        back_populates="user",
+        uselist=False
+    )
+    
     def __repr__(self):
         return f"<User {self.email}>"
     

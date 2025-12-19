@@ -23,6 +23,7 @@ if TYPE_CHECKING:
     from app.models.user import User
     from app.models.order import Order
     from app.models.product import ProductVariant, Category
+    from app.models.crm import SalesOpportunity, CustomerCommunication, CustomerSegment
 
 
 class CustomerType(str, PyEnum):
@@ -246,6 +247,21 @@ class WholesaleCustomer(Base):
         "ContractPricing",
         back_populates="customer",
         cascade="all, delete-orphan"
+    )
+    opportunities: Mapped[List["SalesOpportunity"]] = relationship(
+        "SalesOpportunity",
+        back_populates="customer",
+        cascade="all, delete-orphan"
+    )
+    communications: Mapped[List["CustomerCommunication"]] = relationship(
+        "CustomerCommunication",
+        back_populates="customer",
+        cascade="all, delete-orphan"
+    )
+    segments: Mapped[List["CustomerSegment"]] = relationship(
+        "CustomerSegment",
+        secondary="customer_segment_mapping",
+        back_populates="customers"
     )
     
     # Table Constraints

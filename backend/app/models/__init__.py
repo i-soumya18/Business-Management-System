@@ -99,6 +99,42 @@ from app.models.pricing import (
     CustomerTier,
     PriceChangeReason
 )
+from app.models.crm import (
+    Lead,
+    SalesOpportunity,
+    CustomerCommunication,
+    CustomerSegment,
+    CustomerSegmentMapping,
+    LeadStatus,
+    LeadSource,
+    LeadPriority,
+    OpportunityStage,
+    CommunicationType,
+    CommunicationDirection
+)
+from app.models.retail_customer import (
+    RetailCustomer,
+    LoyaltyTransaction,
+    CustomerPreference,
+    CustomerTierLevel,
+    CustomerPreferenceType
+)
+from app.models.finance import (
+    Invoice,
+    InvoiceItem,
+    PaymentRecord,
+    CreditNote,
+    PaymentReminder,
+    Bill,
+    VendorPayment,
+    InvoiceStatus,
+    ReminderType,
+    CreditNoteReason,
+    PaymentGateway,
+    PaymentRecordStatus,
+    BillStatus,
+    ExpenseCategory
+)
 
 __all__ = [
     "User",
@@ -185,4 +221,33 @@ __all__ = [
     "PricingRuleStatus",
     "CustomerTier",
     "PriceChangeReason",
+    # CRM
+    "Lead",
+    "SalesOpportunity",
+    "CustomerCommunication",
+    "CustomerSegment",
+    "CustomerSegmentMapping",
+    "LeadStatus",
+    "LeadSource",
+    "LeadPriority",
+    "OpportunityStage",
+    "CommunicationType",
+    "CommunicationDirection",
+    # Retail Customer (B2C CRM)
+    "RetailCustomer",
+    "LoyaltyTransaction",
+    "CustomerPreference",
+    "CustomerTierLevel",
+    "CustomerPreferenceType",
+    # Finance
+    "Invoice",
+    "PaymentRecord",
+    "CreditNote",
+    "Bill",
+    "VendorPayment",
+    "InvoiceStatus",
+    "PaymentGateway",
+    "PaymentRecordStatus",
+    "BillStatus",
+    "ExpenseCategory",
 ]

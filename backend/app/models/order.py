@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from app.models.order_management import OrderHistory, OrderNote, OrderFulfillment, InventoryReservation
     from app.models.user import User
     from app.models.wholesale import WholesaleCustomer
+    from app.models.finance import Invoice
 
 
 class SalesChannel(str, PyEnum):
@@ -317,6 +318,12 @@ class Order(Base):
     
     inventory_reservations: Mapped[List["InventoryReservation"]] = relationship(
         "InventoryReservation",
+        back_populates="order",
+        cascade="all, delete-orphan"
+    )
+    
+    invoices: Mapped[List["Invoice"]] = relationship(
+        "Invoice",
         back_populates="order",
         cascade="all, delete-orphan"
     )

@@ -38,20 +38,59 @@ async def get_current_user(
     Raises:
         HTTPException: If token is invalid or user not found
     """
-    # TODO: Implement JWT token validation
-    # This is a placeholder - actual implementation should:
-    # 1. Decode and validate JWT token
-    # 2. Extract user_id from token
-    # 3. Fetch user from database
-    # 4. Verify user is active
+    from jose import JWTError, jwt
+    from app.core.config import settings
     
     token = credentials.credentials
     
-    # For now, raise not implemented
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Token validation not yet implemented"
-    )
+    try:
+        # Decode JWT token
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.JWT_ALGORITHM]
+        )
+        
+        # Extract user identifier (email or user_id)
+        user_email: str = payload.get("sub")
+        user_id_str: str = payload.get("user_id")
+        
+        if not user_email and not user_id_str:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate credentials",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        # Get user from database
+        user_repo = UserRepository(db)
+        
+        if user_id_str:
+            try:
+                user_id = UUID(user_id_str)
+                user = await user_repo.get(user_id)
+            except (ValueError, TypeError):
+                user = None
+        elif user_email:
+            user = await user_repo.get_by_email(user_email)
+        else:
+            user = None
+        
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User not found",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
+        return user
+        
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
 
 async def get_current_active_user(

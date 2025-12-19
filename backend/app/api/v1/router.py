@@ -6,6 +6,7 @@ from fastapi import APIRouter
 from app.api.v1.endpoints import auth, health, users
 from app.api.v1.garment import garment_router
 from app.api.v1 import reports, wholesale, pos, ecommerce, orders, pricing, inventory
+from app.api import crm, retail_customer, accounts_receivable, accounts_payable
 
 api_router = APIRouter()
 
@@ -73,12 +74,36 @@ api_router.include_router(
     tags=["Pricing Engine"]
 )
 
+# CRM Module (Phase 3)
+api_router.include_router(
+    crm.router,
+    tags=["B2B CRM"]
+)
+
+# Retail Customer CRM Module (Phase 3.2)
+api_router.include_router(
+    retail_customer.router,
+    tags=["B2C CRM"]
+)
+
+# Accounts Receivable Module (Phase 3.3)
+api_router.include_router(
+    accounts_receivable.router,
+    tags=["Accounts Receivable"]
+)
+
+# Accounts Payable Module (Phase 3.4)
+api_router.include_router(
+    accounts_payable.router,
+    tags=["Accounts Payable"]
+)
+
 # Future routers will be added here:
 # api_router.include_router(roles.router, prefix="/roles", tags=["Roles & Permissions"])
 api_router.include_router(inventory.router, prefix="/inventory", tags=["Inventory"])
 # api_router.include_router(sales.router, prefix="/sales", tags=["Sales"])
 # api_router.include_router(orders.router, prefix="/orders", tags=["Orders"])
-# api_router.include_router(customers.router, prefix="/customers", tags=["CRM"])
+# api_router.include_router(customers.router, prefix="/customers", tags=["Retail CRM"])
 # api_router.include_router(finance.router, prefix="/finance", tags=["Finance"])
 # api_router.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 # api_router.include_router(ml.router, prefix="/ml", tags=["ML/AI"])
